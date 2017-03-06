@@ -1,0 +1,25 @@
+{
+  "name": "micro-stripe",
+  "version": "1.0.0",
+  "description": "A micro service for creating stripe charges with stripe checkout.",
+  "main": "index.js",
+  "author": "Cole Townsend",
+  "license": "MIT",
+  "scripts": {
+    "start": "micro",
+    "test": "ava --harmony-async-await node_modules/.bin/micro test.js",
+    "example": "micro ./example.js"
+  },
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "micro": "^7.0.6",
+    "micro-post": "^0.1.1",
+    "request-promise": "^4.1.1",
+    "stripe": "^4.15.0"
+  },
+  "devDependencies": {
+    "ava": "^0.18.2",
+    "ava-http": "^0.2.1",
+    "test-listen": "^1.0.1"
+  }
+}
