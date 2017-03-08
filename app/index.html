@@ -265,14 +265,6 @@
       }
 
       function createCharge(token) {
-        console.log("creating charge with token: ", token);
-
-        console.log(JSON.stringify({
-          "amount": 2500,
-          "currency": "usd",
-          "source": token
-        }))
-
         $.ajax({
           type: "POST",
           contentType: "application/json; charset=utf-8",
@@ -307,8 +299,6 @@
         };
         stripe.createToken(card, extraDetails).then(setOutcome).then(createCharge);
       });
-
-
     </script>
   </body>
 </html>
