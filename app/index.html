@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Micro Stripe Checkout</title>
+    <meta charSet='utf-8' />
+    <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <style>
+    * {
+      font-size: 15px;
+      font-variant: normal;
+      padding: 0;
+      margin: 0;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+      background: #F6F8FA;
+      color: #4C555A;
+      min-height: 100%;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      -ms-align-items: center;
+      align-items: center;
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flex;
+      display: -o-flex;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 720px;
+      padding: 100px 0;
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flex;
+      display: -o-flex;
+      display: flex;
+      -webkit-flex-direction: column;
+      -moz-flex-direction: column;
+      -ms-flex-direction: column;
+      -o-flex-direction: column;
+      flex-direction: column;
+    }
+
+    .form-container  {
+      display: block;
+    }
+
+    footer {
+      width: 100%;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+       font-size: 24px;
+       font-weight: 500;
+       text-align: center;
+    }
+
+    form {
+      width: 480px;
+      margin: 20px 0;
+    }
+
+    .group {
+      background: white;
+      box-shadow: 0 7px 14px 0 rgba(49,49,93,0.10),
+                  0 3px 6px 0 rgba(0,0,0,0.08);
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      position: relative;
+      color: #8898AA;
+      font-weight: 400;
+      height: 40px;
+      line-height: 40px;
+      margin-left: 20px;
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flex;
+      display: -o-flex;
+      display: flex;
+      -webkit-flex-direction: row;
+      -moz-flex-direction: row;
+      -ms-flex-direction: row;
+      -o-flex-direction: row;
+      flex-direction: row;
+    }
+
+    .group label:not(:last-child) {
+      border-bottom: 1px solid #F0F5FA;
+    }
+
+    label > span {
+      width: 80px;
+      text-align: right;
+      margin-right: 30px;
+    }
+
+    .field {
+      background: transparent;
+      font-weight: 400;
+      border: 0;
+      color: #31325F;
+      outline: none;
+      flex: 1;
+      padding-right: 10px;
+      padding-left: 10px;
+      cursor: text;
+    }
+
+    .field::-webkit-input-placeholder { color: #CFD7E0; }
+    .field::-moz-placeholder { color: #CFD7E0; }
+
+    button {
+      float: left;
+      display: block;
+      background: #666EE8;
+      color: white;
+      pointer: cursor;
+      box-shadow: 0 7px 14px 0 rgba(49,49,93,0.10),
+                  0 3px 6px 0 rgba(0,0,0,0.08);
+      border-radius: 4px;
+      border: 0;
+      margin-top: 20px;
+      font-size: 15px;
+      font-weight: 500;
+      width: 100%;
+      height: 40px;
+      line-height: 38px;
+      outline: none;
+    }
+
+    button:focus {
+      background: #555ABF;
+    }
+
+    button:active {
+      background: #43458B;
+    }
+
+    .outcome {
+      float: left;
+      width: 100%;
+      padding-top: 8px;
+      min-height: 24px;
+      text-align: center;
+    }
+
+    .success, .error {
+      display: none;
+      font-size: 13px;
+    }
+
+    .success.visible, .error.visible {
+      display: inline;
+    }
+
+    .error {
+      color: #E4584C;
+    }
+
+    .success {
+      color: #666EE8;
+    }
+
+    .success .token {
+      font-weight: 500;
+      font-size: 13px;
+    }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div className="container">
+        <h1>Test Checkout with Micro-Stripe</h1>
+        <form class="form-container">
+        <div class="group">
+          <label>
+            <span>Name</span>
+            <input name="cardholder-name" class="field" placeholder="Jane Doe" />
+          </label>
+          <label>
+            <span>Email</span>
+            <input class="field" placeholder="youremail@domain.com" type="email" />
+          </label>
+        </div>
+        <div class="group">
+          <label>
+            <span>Card</span>
+            <div id="card-element" class="field"></div>
+          </label>
+        </div>
+        <button type="submit">Pay $25</button>
+        <div class="outcome">
+          <div class="error"></div>
+          <div class="success">
+            Success! Your Stripe token is <span class="token"></span>
+          </div>
+        </div>
+      </form>
+      </div>
+    </main>
+    <script>
+      var stripe = Stripe('pk_test_JS759ictlRv2JtrZ9aRgqFKR');
+      var elements = stripe.elements();
+
+      var card = elements.create('card', {
+        style: {
+          base: {
+            iconColor: '#666EE8',
+            color: '#31325F',
+            lineHeight: '40px',
+            fontWeight: 400,
+            fontFamily: '-apple-system, BlinkMacSystemFont, Roboto',
+            fontSize: '15px',
+            fontSmoothing: 'antialiased',
+
+            '::placeholder': {
+              color: '#CFD7E0',
+            },
+          },
+        }
+      });
+      card.mount('#card-element');
+
+      function setOutcome(result) {
+        var $form = $('form');
+        var successElement = document.querySelector('.success');
+        var errorElement = document.querySelector('.error');
+        successElement.classList.remove('visible');
+        errorElement.classList.remove('visible');
+
+        if (result.token) {
+          // Use the token to create a charge or a customer
+          // https://stripe.com/docs/charges
+          successElement.querySelector('.token').textContent = result.token.id;
+          successElement.classList.add('visible');
+
+        var token = result.token.id;
+
+        // Insert the token ID into the form so it gets submitted to the server:
+        $form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+        return token;
+
+        } else if (result.error) {
+          errorElement.textContent = result.error.message;
+          errorElement.classList.add('visible');
+        }
+      }
+
+      function createCharge(token) {
+        console.log("creating charge with token: ", token);
+
+        console.log(JSON.stringify({
+          "amount": 2500,
+          "currency": "usd",
+          "source": token
+        }))
+
+        $.ajax({
+          type: "POST",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          url: 'https://micro-stripe-api.twnsnd.co/',
+          beforeSend: function (xhr) {
+              xhr.setRequestHeader('Authorization', 'Bearer pk_test_JS759ictlRv2JtrZ9aRgqFKR');
+          },
+          data: JSON.stringify({
+            "amount": 2500,
+            "currency": "usd",
+            "source": token
+          }),
+          success: function () {
+            alert('successfully charged!');
+          },
+          error: function (xhr, status, error) {
+            console.log(error.message, xhr, status)
+          }
+        });
+      }
+
+      card.on('change', function(event) {
+        setOutcome(event);
+      });
+
+      document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var form = document.querySelector('form');
+        var extraDetails = {
+          name: form.querySelector('input[name=cardholder-name]').value,
+        };
+        stripe.createToken(card, extraDetails).then(setOutcome).then(createCharge);
+      });
+
+
+    </script>
+  </body>
+</html>

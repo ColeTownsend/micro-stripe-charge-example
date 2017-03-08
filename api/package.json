@@ -13,8 +13,6 @@
   "dependencies": {
     "dotenv": "^4.0.0",
     "micro": "^7.0.6",
-    "micro-post": "^0.1.1",
-    "request-promise": "^4.1.1",
     "stripe": "^4.15.0"
   },
   "devDependencies": {
