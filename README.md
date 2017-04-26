@@ -13,6 +13,8 @@ Expects to receive a data object in a `POST` request from something like `checko
 
 It takes the token and applies a charge with the amount from the POST request.
 
+[Read about a more in depth tutorial](https://medium.com/@twnsndco/accept-payments-on-your-site-with-nextjs-stripe-and-micro-371de95b22d5)
+
 ## How to use:
 
 ### Deploying the back end
