@@ -1,4 +1,3 @@
-'use strict'
 require('dotenv').config()
 // https://github.com/romuloalves/micro-post/blob/master/src/index.js
 
