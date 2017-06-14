@@ -329,19 +329,18 @@
           dataType: "json",
           url: 'https://micro-stripe-api.twnsnd.co/',
           beforeSend: function (xhr) {
-              xhr.setRequestHeader('Authorization', 'Bearer pk_test_JS759ictlRv2JtrZ9aRgqFKR');
+            xhr.setRequestHeader('Authorization', 'Bearer pk_test_JS759ictlRv2JtrZ9aRgqFKR');
           },
           data: JSON.stringify({
             "amount": 2500,
             "currency": "usd",
             "source": token
-          }),
-          success: function () {
-            alert('successfully charged!');
-          },
-          error: function (xhr, status, error) {
-            console.log(error.message, xhr, status)
-          }
+          })
+        }).done( function() {
+          alert('Successfully charged!');
+        }).fail( function(xhr, status, error) {
+          alert(error.message);
+          console.log(error.message, xhr, status)
         });
       }
 
