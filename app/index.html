@@ -6,6 +6,7 @@
     <meta name='viewport' content='initial-scale=1.0, width=device-width' />
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="./js/tuid.js"></script>
     <style>
     * {
       font-size: 15px;
@@ -53,13 +54,28 @@
       flex-direction: column;
     }
 
+    header {
+      padding-bottom: 2rem;
+    }
+
+    h1 {
+      margin-bottom: 0.75rem;
+    }
+
+    p > code {
+      padding: 5px 8px;
+      border-radius: 3px;
+      background-color: #ffffff;
+      color: #BBBFF4;
+    }
+
     .form-container  {
       display: block;
     }
 
     footer {
       width: 100%;
-      padding: 40px;
+      padding-top: 1rem;
       text-align: center;
     }
 
@@ -70,8 +86,33 @@
     }
 
     form {
-      width: 480px;
+      max-width: 480px;
+      width: 100%;
       margin: 20px 0;
+    }
+
+    footer {
+      width: 100%;
+      max-width: 480px;
+      clear: both;
+    }
+
+    a {
+      color: #424770;
+      -webkit-transition: color .4s ease-in-out;
+      -o-transition: color .4s ease-in-out;
+      transition: color .4s ease-in-out;
+    }
+
+    a:visited {
+      color: #6772E5;
+    }
+
+    a:hover {
+      color: #24B47E;
+      -webkit-transition: color .2s ease-in-out;
+      -o-transition: color .2s ease-in-out;
+      transition: color .2s ease-in-out;
     }
 
     .group {
@@ -127,11 +168,10 @@
     .field::-moz-placeholder { color: #CFD7E0; }
 
     button {
-      float: left;
       display: block;
       background: #666EE8;
       color: white;
-      pointer: cursor;
+      cursor: pointer;
       box-shadow: 0 7px 14px 0 rgba(49,49,93,0.10),
                   0 3px 6px 0 rgba(0,0,0,0.08);
       border-radius: 4px;
@@ -187,8 +227,11 @@
   <body>
     <main>
       <div className="container">
-        <h1>Test Checkout with Micro-Stripe</h1>
-        <form class="form-container">
+        <header>
+          <h1>Test Checkout with Micro-Stripe</h1>
+          <p>Use <code>4242 4242 4242 4242</code> and any CVC and future expiration date</p>
+        </header>
+        <form id="card-form" class="form-container">
         <div class="group">
           <label>
             <span>Name</span>
@@ -196,7 +239,11 @@
           </label>
           <label>
             <span>Email</span>
-            <input class="field" placeholder="youremail@domain.com" type="email" />
+            <input class="field" name="email" placeholder="youremail@domain.com" type="email" />
+          </label>
+          <label>
+            <span>Phone</span>
+            <input class="field" name="telephone" placeholder="(123) 456-7890" type="tel" />
           </label>
         </div>
         <div class="group">
@@ -213,11 +260,15 @@
           </div>
         </div>
       </form>
+      <footer>
+        Made by <a href="https://twnsnd.co">Cole Townsend</a>
+      </footer>
       </div>
     </main>
     <script>
       var stripe = Stripe('pk_test_JS759ictlRv2JtrZ9aRgqFKR');
       var elements = stripe.elements();
+      var $form = $('#card-form');
 
       var card = elements.create('card', {
         style: {
@@ -238,8 +289,15 @@
       });
       card.mount('#card-element');
 
+      window.addEventListener('resize', function(event) {
+        if (window.innerWidth <= 320) {
+          card.update({style: {base: {fontSize: '13px'}}});
+        } else {
+          card.update({style: {base: {fontSize: '15px'}}});
+        }
+      });
+
       function setOutcome(result) {
-        var $form = $('form');
         var successElement = document.querySelector('.success');
         var errorElement = document.querySelector('.error');
         successElement.classList.remove('visible');
@@ -291,12 +349,8 @@
         setOutcome(event);
       });
 
-      document.querySelector('form').addEventListener('submit', function(e) {
+      $form.submit(function() {
         e.preventDefault();
-        var form = document.querySelector('form');
-        var extraDetails = {
-          name: form.querySelector('input[name=cardholder-name]').value,
-        };
         stripe.createToken(card, extraDetails).then(setOutcome).then(createCharge);
       });
     </script>
