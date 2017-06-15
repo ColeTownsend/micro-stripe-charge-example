@@ -266,9 +266,8 @@
       </div>
     </main>
     <script>
-      var stripe = Stripe('pk_test_JS759ictlRv2JtrZ9aRgqFKR');
+     var stripe = Stripe('pk_test_JS759ictlRv2JtrZ9aRgqFKR'); // @TODO replace with your public test key!
       var elements = stripe.elements();
-      var $form = $('#card-form');
 
       var card = elements.create('card', {
         style: {
@@ -289,15 +288,8 @@
       });
       card.mount('#card-element');
 
-      window.addEventListener('resize', function(event) {
-        if (window.innerWidth <= 320) {
-          card.update({style: {base: {fontSize: '13px'}}});
-        } else {
-          card.update({style: {base: {fontSize: '15px'}}});
-        }
-      });
-
       function setOutcome(result) {
+        var $form = $('form');
         var successElement = document.querySelector('.success');
         var errorElement = document.querySelector('.error');
         successElement.classList.remove('visible');
@@ -337,10 +329,9 @@
             "source": token
           }),
           success: function () {
-            alert('Successfully charged!');
+            alert('successfully charged!');
           },
           error: function (xhr, status, error) {
-            alert('Error with card');
             console.log(error.message, xhr, status)
           }
         });
@@ -350,8 +341,12 @@
         setOutcome(event);
       });
 
-      $form.submit(function() {
+      document.querySelector('form').addEventListener('submit', function(e) {
         e.preventDefault();
+        var form = document.querySelector('form');
+        var extraDetails = {
+          name: form.querySelector('input[name=cardholder-name]').value,
+        };
         stripe.createToken(card, extraDetails).then(setOutcome).then(createCharge);
       });
     </script>
