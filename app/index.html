@@ -6,7 +6,6 @@
     <meta name='viewport' content='initial-scale=1.0, width=device-width' />
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="./js/tuid.js"></script>
     <style>
     * {
       font-size: 15px;
@@ -261,7 +260,12 @@
         </div>
       </form>
       <footer>
-        Made by <a href="https://twnsnd.co">Cole Townsend</a>
+        <p>
+          Made by <a href="https://twnsnd.co">Cole Townsend</a>
+        </p>
+        <p>
+          Read the blog post on <a href="https://hackernoon.com/accept-payments-on-your-site-with-nextjs-stripe-and-micro-371de95b22d5">Medium</a>
+        </p>
       </footer>
       </div>
     </main>
@@ -288,7 +292,7 @@
       });
       card.mount('#card-element');
 
-      
+
       function setOutcome(result) {
         var successElement = document.querySelector('.success');
         var errorElement = document.querySelector('.error');
@@ -298,8 +302,11 @@
         if (result.token) {
           // Use the token to create a charge or a customer
           // https://stripe.com/docs/charges
+          var token = result.token.id
+          $('form').append($('<input type="hidden" name="stripeToken">').val(token));
           successElement.querySelector('.token').textContent = result.token.id;
           successElement.classList.add('visible');
+          return token;
         } else if (result.error) {
           errorElement.textContent = result.error.message;
           errorElement.classList.add('visible');
