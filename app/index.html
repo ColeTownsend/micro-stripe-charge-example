@@ -288,8 +288,8 @@
       });
       card.mount('#card-element');
 
+      
       function setOutcome(result) {
-        var $form = $('form');
         var successElement = document.querySelector('.success');
         var errorElement = document.querySelector('.error');
         successElement.classList.remove('visible');
@@ -300,14 +300,6 @@
           // https://stripe.com/docs/charges
           successElement.querySelector('.token').textContent = result.token.id;
           successElement.classList.add('visible');
-
-        var token = result.token.id;
-
-        // Insert the token ID into the form so it gets submitted to the server:
-        $form.append($('<input type="hidden" name="stripeToken">').val(token));
-
-        return token;
-
         } else if (result.error) {
           errorElement.textContent = result.error.message;
           errorElement.classList.add('visible');
