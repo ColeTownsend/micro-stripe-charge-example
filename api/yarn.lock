@@ -582,7 +582,7 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-bluebird@3.5.0, bluebird@^3.0.0, bluebird@^3.4.1:
+bluebird@3.5.0, bluebird@^3.0.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
 
@@ -1745,9 +1745,9 @@ lodash.isplainobject@^4.0.6:
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
 
-lodash@^4.13.1, lodash@^4.2.0, lodash@^4.5.0:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+lodash@^4.2.0, lodash@^4.5.0:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
 
 loose-envify@^1.0.0:
   version "1.3.1"
@@ -1834,14 +1834,6 @@ meow@^3.7.0:
     read-pkg-up "^1.0.1"
     redent "^1.0.0"
     trim-newlines "^1.0.0"
-
-micro-cors@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/micro-cors/-/micro-cors-0.0.1.tgz#f3e1f85936e33bf15d321ba57938a6407e1976fa"
-
-micro-post@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/micro-post/-/micro-post-0.1.1.tgz#74a0ca3d77ed6dae346450b3b94370159bda9cb3"
 
 micro@^7.0.6:
   version "7.1.0"
@@ -2430,12 +2422,6 @@ repeating@^2.0.0:
   dependencies:
     is-finite "^1.0.0"
 
-request-promise-core@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/request-promise-core/-/request-promise-core-1.1.1.tgz#3eee00b2c5aa83239cfb04c5700da36f81cd08b6"
-  dependencies:
-    lodash "^4.13.1"
-
 request-promise@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/request-promise/-/request-promise-2.0.1.tgz#acbd47b725e39372ede3174cf29c38d9ecf2b30d"
@@ -2443,14 +2429,6 @@ request-promise@^2.0.0:
     bluebird "^2.3"
     lodash "^4.5.0"
     request "^2.34"
-
-request-promise@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/request-promise/-/request-promise-4.1.1.tgz#26021e4f6f56fd4c309f6bf1ebd8c97a95ac1fb5"
-  dependencies:
-    bluebird "^3.4.1"
-    request-promise-core "1.1.1"
-    stealthy-require "^1.0.0"
 
 request@^2.34, request@^2.79.0:
   version "2.80.0"
@@ -2601,10 +2579,6 @@ sshpk@^1.7.0:
 stack-utils@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/stack-utils/-/stack-utils-1.0.0.tgz#2392cd8ddbd222492ed6c047960f7414b46c0f83"
-
-stealthy-require@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.0.0.tgz#1a8ed8fc19a8b56268f76f5a1a3e3832b0c26200"
 
 string-width@^1.0.1:
   version "1.0.2"
